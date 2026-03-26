@@ -12,7 +12,7 @@ This project presents a deployment-oriented smart waste bin system that combines
 The system is designed for real-time operation on resource-constrained hardware such as Raspberry Pi 4B.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/9a897346-813c-42de-867b-96beb79e7989" alt="Project Prototype" width="700"/>
+  <img src="https://github.com/user-attachments/assets/9a897346-813c-42de-867b-96beb79e7989" alt="Project Prototype" width="400"/>
 </p>
 
 ## Key Features
@@ -55,10 +55,10 @@ smart-waste-bin/
 ├── README.md
 ├── LICENSE
 └── .gitignore
-
+```
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/448bc800-569c-4e24-b8ff-bdbaec46fb16" alt="Reward Interface" width="700"/>
+  <img src="https://github.com/user-attachments/assets/448bc800-569c-4e24-b8ff-bdbaec46fb16" alt="Reward Interface" width="400"/>
 </p>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/7406763d-47b7-405b-b18b-59211ae935ad" alt="Bin Fill Levels" width="700"/>
+  <img src="https://github.com/user-attachments/assets/7406763d-47b7-405b-b18b-59211ae935ad" alt="Bin Fill Levels" width="400"/>
 </p>
