@@ -1,6 +1,8 @@
 # A Deployment-Oriented Edge-AI Framework for Real-Time Waste Classification with Biometric Authentication and Secure Logging
-Smart Waste Management, Edge AI, Internet of Things (IoT), Waste Classification, Transfer Learning, ImageNet, EfficientNetB0, Raspberry Pi, Biometric Authentication
 
+**Keywords:** Smart Waste Management, Edge AI, Internet of Things (IoT), Waste Classification, Transfer Learning, ImageNet, EfficientNetB0, Raspberry Pi, Biometric Authentication
+
+---
 
 # Smart Waste Bin: Edge-AI Waste Classification with Biometric Authentication and Secure Logging
 
@@ -8,6 +10,10 @@ Smart Waste Management, Edge AI, Internet of Things (IoT), Waste Classification,
 This project presents a deployment-oriented smart waste bin system that combines edge-based waste classification, biometric user authentication, automated bin control, fill-level monitoring, cloud synchronization, and lightweight tamper-evident secure logging.
 
 The system is designed for real-time operation on resource-constrained hardware such as Raspberry Pi 4B.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9a897346-813c-42de-867b-96beb79e7989" alt="Project Prototype" width="400"/>
+</p>
 
 ## Key Features
 - Real-time waste classification on edge device
@@ -48,4 +54,8 @@ smart-waste-bin/
 ├── benchmarks/
 ├── README.md
 ├── LICENSE
-├── .gitignore
+└── .gitignore
+```
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/448bc800-569c-4e24-b8ff-bdbaec46fb16" alt="Reward Interface" width="400"/>
+</p>
