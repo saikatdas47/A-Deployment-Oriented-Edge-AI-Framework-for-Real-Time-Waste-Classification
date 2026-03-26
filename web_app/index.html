@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Recycling System Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS for maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for rewards chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Confetti for reward redemption -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        #map { height: 400px; }
+        .sidebar { width: 250px; }
+        .main-content { margin-left: 250px; }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .bin-marker {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #4CAF50;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .bin-marker.full {
+            background: #F44336;
+        }
+        .bin-marker.warning {
+            background: #FF9800;
+        }
+        .bin-marker.offline {
+            background: #666666;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Admin Login Screen -->
+    <div id="admin-login" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Admin Login
+                </h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    Smart Recycling System
+                </p>
+            </div>
+            <form class="mt-8 space-y-6" id="admin-login-form">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="admin-username" class="sr-only">Username</label>
+                        <input id="admin-username" name="username" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Username">
+                    </div>
+                    <div>
+                        <label for="admin-password" class="sr-only">Password</label>
+                        <input id="admin-password" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Password">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Sign in
+                    </button>
+                </div>
+                <div class="text-center">
+                    <a href="#" id="switch-to-user" class="text-green-600 hover:text-green-800 text-sm">User Login</a>
+                    <span class="mx-2">|</span>
+                    <a href="#" id="show-register" class="text-green-600 hover:text-green-800 text-sm">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Login Screen -->
+    <div id="user-login" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 hidden">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    User Login
+                </h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    Smart Recycling System
+                </p>
+            </div>
+            <form class="mt-8 space-y-6" id="user-login-form">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="user-voterid" class="sr-only">Voter ID</label>
+                        <input id="user-voterid" name="voterid" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Voter ID">
+                    </div>
+                    <div>
+                        <label for="user-fingerid" class="sr-only">Finger ID</label>
+                        <input id="user-fingerid" name="fingerid" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Finger ID">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Sign in
+                    </button>
+                </div>
+                <div class="text-center">
+                    <a href="#" id="switch-to-admin" class="text-green-600 hover:text-green-800 text-sm">Admin Login</a>
+                    <span class="mx-2">|</span>
+                    <a href="#" id="show-register" class="text-green-600 hover:text-green-800 text-sm">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Registration Screen -->
+    <div id="user-register" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 hidden">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Register
+                </h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    Smart Recycling System
+                </p>
+            </div>
+            <form class="mt-8 space-y-6" id="user-register-form">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="register-voterid" class="sr-only">Voter ID</label>
+                        <input id="register-voterid" name="voterid" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Voter ID">
+                    </div>
+                    <div>
+                        <label for="register-name" class="sr-only">Name</label>
+                        <input id="register-name" name="name" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Name">
+                    </div>
+                    <div>
+                        <label for="register-fingerid" class="sr-only">Finger ID</label>
+                        <input id="register-fingerid" name="fingerid" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Finger ID">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Register
+                    </button>
+                </div>
+                <div class="text-center">
+                    <a href="#" id="switch-to-user" class="text-green-600 hover:text-green-800 text-sm">Back to Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="flex hidden">
+        <div class="sidebar bg-green-700 text-white h-screen fixed top-0 left-0">
+            <div class="p-4">
+                <h1 class="text-2xl font-bold">Admin Dashboard</h1>
+            </div>
+            <nav class="mt-4">
+                <a href="#" class="admin-tab block p-4 hover:bg-green-600 bg-green-600 text-white" data-tab="bins">Bins</a>
+                <a href="#" class="admin-tab block p-4 hover:bg-green-600" data-tab="users">Users</a>
+                <a href="#" class="admin-tab block p-4 hover:bg-green-600" data-tab="disposals">Disposals</a>
+                <a href="#" class="admin-tab block p-4 hover:bg-green-600" data-tab="notifications">Notifications</a>
+                <a href="#" id="admin-logout" class="block p-4 hover:bg-red-600 text-white">Logout</a>
+            </nav>
+        </div>
+        <div class="main-content p-6">
+            <!-- Bins Tab -->
+            <div id="admin-bins" class="tab-content active">
+                <h2 class="text-2xl font-bold mb-4">Bin Management</h2>
+                <div id="map" class="mb-4 rounded-lg shadow"></div>
+                <button id="add-bin" class="mb-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Add New Bin</button>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b">Bin ID</th>
+                                <th class="py-2 px-4 border-b">Name</th>
+                                <th class="py-2 px-4 border-b">Zone</th>
+                                <th class="py-2 px-4 border-b">Location</th>
+                                <th class="py-2 px-4 border-b">Fill Level</th>
+                                <th class="py-2 px-4 border-b">Status</th>
+                                <th class="py-2 px-4 border-b">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bin-list">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Users Tab -->
+            <div id="admin-users" class="tab-content">
+                <h2 class="text-2xl font-bold mb-4">User Management</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b">Voter ID</th>
+                                <th class="py-2 px-4 border-b">Name</th>
+                                <th class="py-2 px-4 border-b">Points</th>
+                                <th class="py-2 px-4 border-b">Role</th>
+                                <th class="py-2 px-4 border-b">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-list">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Disposals Tab -->
+            <div id="admin-disposals" class="tab-content">
+                <h2 class="text-2xl font-bold mb-4">Disposal History</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b">User ID</th>
+                                <th class="py-2 px-4 border-b">Bin ID</th>
+                                <th class="py-2 px-4 border-b">Waste Type</th>
+                                <th class="py-2 px-4 border-b">Points</th>
+                                <th class="py-2 px-4 border-b">Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="disposal-list">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Notifications Tab -->
+            <div id="admin-notifications" class="tab-content">
+                <h2 class="text-2xl font-bold mb-4">Notifications</h2>
+                <div id="notification-list" class="space-y-4">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Dashboard -->
+    <div id="user-dashboard" class="flex hidden">
+        <div class="sidebar bg-green-700 text-white h-screen fixed top-0 left-0">
+            <div class="p-4">
+                <h1 class="text-2xl font-bold">Welcome, <span id="user-name"></span></h1>
+                <p class="text-sm">Points: <span id="reward-points-display">0</span></p>
+            </div>
+            <nav class="mt-4">
+                <a href="#" class="user-tab block p-4 hover:bg-green-600 bg-green-600 text-white" data-tab="rewards">Rewards</a>
+                <a href="#" class="user-tab block p-4 hover:bg-green-600" data-tab="map">Map</a>
+                <a href="#" id="user-logout" class="block p-4 hover:bg-red-600 text-white">Logout</a>
+            </nav>
+        </div>
+        <div class="main-content p-6">
+            <!-- Rewards Tab -->
+            <div id="user-rewards" class="tab-content active">
+                <h2 class="text-2xl font-bold mb-4">Your Rewards</h2>
+                <!-- Points Summary -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Current Points</h3>
+                        <p class="text-3xl font-bold text-green-600" id="reward-points-display-main">0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Points Breakdown</h3>
+                        <ul class="text-gray-600 space-y-2">
+                            <li class="flex justify-between"><span>Plastic</span><span class="font-semibold" id="plastic-points">0 pts</span></li>
+                            <li class="flex justify-between"><span>Paper</span><span class="font-semibold" id="paper-points">0 pts</span></li>
+                            <li class="flex justify-between"><span>Glass</span><span class="font-semibold" id="glass-points">0 pts</span></li>
+                            <li class="flex justify-between"><span>Metal</span><span class="font-semibold" id="metal-points">0 pts</span></li>
+                            <li class="flex justify-between"><span>Organic</span><span class="font-semibold" id="organic-points">0 pts</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Analysis Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Time-Based Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold text-gray-800">Points Over Time</h2>
+                            <div class="flex space-x-4 items-center">
+                                <select id="chart-period" class="border rounded p-2 text-sm bg-gray-50">
+                                    <option value="yearly">Yearly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="daily">Daily</option>
+                                </select>
+                                <div class="flex items-center space-x-2">
+                                    <label for="time-range" class="text-sm text-gray-600">Range (days):</label>
+                                    <input type="range" id="time-range" min="7" max="365" value="90" step="7" class="w-32">
+                                    <span id="range-value" class="text-sm text-gray-600">90</span>
+                                </div>
+                            </div>
+                        </div>
+                        <canvas id="rewards-time-chart" height="200"></canvas>
+                    </div>
+                    <!-- Waste Type Pie Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Points by Waste Type</h2>
+                        <canvas id="rewards-pie-chart" height="200"></canvas>
+                    </div>
+                </div>
+                <!-- Detailed Analysis Chart -->
+                <div class="bg-white p-6 rounded-lg shadow mb-8">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Detailed Reward Analysis</h2>
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <select id="analysis-waste-type" class="border rounded p-2 text-sm bg-gray-50">
+                            <option value="all">All Waste Types</option>
+                            <option value="plastic">Plastic</option>
+                            <option value="paper">Paper</option>
+                            <option value="glass">Glass</option>
+                            <option value="metal">Metal</option>
+                            <option value="organic">Organic</option>
+                        </select>
+                        <select id="analysis-bin" class="border rounded p-2 text-sm bg-gray-50">
+                            <option value="all">All Bins</option>
+                            <!-- Populated by JS -->
+                        </select>
+                        <select id="analysis-period" class="border rounded p-2 text-sm bg-gray-50">
+                            <option value="yearly">Yearly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="daily">Daily</option>
+                        </select>
+                    </div>
+                    <canvas id="detailed-analysis-chart" height="200"></canvas>
+                </div>
+                <!-- Redeemed Rewards History -->
+                <div class="bg-white p-6 rounded-lg shadow mb-8">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Redeemed Rewards History</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead>
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Reward Name</th>
+                                    <th class="py-2 px-4 border-b">Points Deducted</th>
+                                    <th class="py-2 px-4 border-b">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="redeemed-history">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2 hidden" id="no-history-msg">No redemptions yet. Start redeeming rewards!</p>
+                </div>
+                <!-- Available Rewards -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Available Rewards</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="rewards-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+            <!-- Map Tab -->
+            <div id="user-map" class="tab-content">
+                <h2 class="text-2xl font-bold mb-4">Bin Locations</h2>
+                <div id="map" class="rounded-lg shadow"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Redeem Modal -->
+    <div id="redeem-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Confirm Redemption</h2>
+            <p class="text-gray-600 mb-4" id="redeem-message"></p>
+            <div class="flex justify-end space-x-4">
+                <button id="cancel-redeem" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+                <button id="confirm-redeem" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bin Modal -->
+    <div id="bin-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4" id="bin-modal-title">Add Bin</h2>
+            <form id="bin-form">
+                <div class="mb-4">
+                    <label for="bin-id" class="block text-sm font-medium text-gray-700">Bin ID</label>
+                    <input id="bin-id" name="binId" type="text" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label for="bin-name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input id="bin-name" name="name" type="text" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label for="bin-zone" class="block text-sm font-medium text-gray-700">Zone</label>
+                    <input id="bin-zone" name="zone" type="text" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label for="bin-location" class="block text-sm font-medium text-gray-700">Location</label>
+                    <input id="bin-location" name="location" type="text" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label for="bin-lat" class="block text-sm font-medium text-gray-700">Latitude</label>
+                    <input id="bin-lat" name="lat" type="number" step="any" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label for="bin-lng" class="block text-sm font-medium text-gray-700">Longitude</label>
+                    <input id="bin-lng" name="lng" type="number" step="any" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="cancel-bin" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Leaflet JS for maps -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

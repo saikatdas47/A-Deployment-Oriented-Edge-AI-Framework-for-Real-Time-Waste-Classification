@@ -1,0 +1,117 @@
+Reward Analysis System for Blockchain-Based Waste Management
+
+Objective
+
+The system calculates rewards for users based on their waste disposal activity recorded on a blockchain. It reads the blockchain JSON file, analyzes the data, and outputs a CSV file containing points, rankings, and reward tiers for each user.
+
+⸻
+
+Logic and Steps
+
+1. Input Source
+	•	Blockchain JSON File: wastelist_chain.json contains all waste disposal records.
+	•	Each block has:
+	•	VoterID
+	•	Name
+	•	ClassifiedWaste (plastic, organic, glass, metal)
+	•	DateTime of disposal
+	•	Other blockchain metadata (hash, signature, etc.)
+
+⸻
+
+2. Points System
+
+Each type of waste is assigned points:
+
+Waste Type
+Points
+Plastic
+1
+Organic
+2
+Glass
+5
+Metal
+5
+
+
+Rationale: Rare waste (Glass, Metal) gives higher points to encourage proper segregation.
+
+⸻
+
+3. Daily Bonus
+	•	If a user disposes 3 or more waste items in a single day, they receive an additional 2 points.
+	•	Logic:
+	1.	Count number of records per user per day.
+	2.	If count >= 3 → add 2 points to TotalPoints.
+
+⸻
+
+4. Monthly Streak Bonus
+	•	Users who dispose waste on 5 or more consecutive days in a month get 5 extra points.
+	•	Logic:
+	1.	Extract all unique disposal dates per user.
+	2.	Sort the dates chronologically.
+	3.	Check consecutive dates.
+	4.	If streak >= 5 days → add 5 points.
+
+⸻
+
+5. Leaderboard Ranking
+	•	Users are ranked by TotalPoints in descending order.
+	•	Higher points → higher rank.
+	•	CSV includes rank for easy visualization.
+
+⸻
+
+6. Reward Tier Assignment
+
+Based on total points, each user is assigned a reward:
+Total Points
+Reward
+>= 50
+Train Ticket
+>= 30
+Voucher
+>= 15
+Gift Card
+< 15
+No Reward
+
+
+7. CSV Output
+	•	Columns:
+    Rank
+VoterID
+Name
+Transactions
+Plastic
+Organic
+Glass
+Metal
+TotalPoints
+Reward
+
+
+
+	•	Each row represents a user.
+	•	TotalPoints includes points from waste type, daily bonus, and monthly streak bonus.
+	•	Reward column shows the reward tier.
+
+⸻
+
+8. Implementation Notes
+	•	Read JSON: Load blockchain JSON file.
+	•	Aggregate Data: Collect user info and count waste types.
+	•	Calculate Points: Apply waste type points, daily bonus, streak bonus.
+	•	Sort Users: Generate leaderboard based on TotalPoints.
+	•	Write CSV: Export all info with rank and reward tier.
+
+⸻
+
+9. Advantages of this Approach
+	1.	Incentivizes proper waste segregation (Glass & Metal have higher points).
+	2.	Encourages daily participation (daily bonus).
+	3.	Encourages consistent behavior (monthly streak bonus).
+	4.	Transparent and tamper-proof (data comes from blockchain).
+	5.	Easy reporting and visualization through CSV.

@@ -1,0 +1,13 @@
+Rank,VoterID,Name,Transactions,Plastic,Organic,Glass,Metal,TotalPoints,Reward
+1,102,Emily,1,0,0,0,1,5,No Reward
+2,105,David,1,0,0,1,0,5,No Reward
+3,108,Nina,1,0,0,0,1,5,No Reward
+4,101,John,1,0,1,0,0,2,No Reward
+5,104,Sara,1,0,1,0,0,2,No Reward
+6,107,Tom,1,0,1,0,0,2,No Reward
+7,110,Anna,1,0,1,0,0,2,No Reward
+8,100,Saeikat,1,1,0,0,0,1,No Reward
+9,2000,Moon,1,1,0,0,0,1,No Reward
+10,103,Alex,1,1,0,0,0,1,No Reward
+11,106,Lisa,1,1,0,0,0,1,No Reward
+12,109,Chris,1,1,0,0,0,1,No Reward

@@ -1,0 +1,299 @@
+/* styles.css - Enhanced CSS for Smart Recycling System */
+
+/* CSS Variables for Theme (Easy to customize) */
+:root {
+    --primary-green: #4CAF50; /* Main eco-green */
+    --secondary-green: #2E7D32; /* Darker green for accents */
+    --accent-blue: #2196F3; /* For highlights */
+    --bg-light: #F0F4F8; /* Light background */
+    --text-dark: #333333; /* Dark text */
+    --text-light: #FFFFFF; /* Light text */
+    --warning-yellow: #FF9800; /* For near-full bins */
+    --danger-red: #F44336; /* For full bins */
+    --offline-gray: #666666; /* For offline bins */
+    --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    --transition-fast: 0.3s ease; /* Quick animations */
+    --animation-fade: fadeIn 0.5s ease-in-out; /* Fade animation */
+}
+
+/* Global Styles */
+body {
+    background: linear-gradient(to bottom, var(--bg-light), #FFFFFF); /* Subtle gradient */
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+h1, h2, h3 {
+    color: var(--text-dark);
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Login/Register Screens - Stunning & Animated */
+#admin-login, #user-login, #user-register {
+    background: linear-gradient(to right, var(--primary-green), var(--secondary-green)); /* Gradient background */
+    animation: var(--animation-fade); /* Fade in */
+}
+
+#admin-login .bg-white, #user-login .bg-white, #user-register .bg-white {
+    box-shadow: var(--shadow-soft);
+    border-radius: 16px; /* Softer corners */
+    transform: scale(1);
+    transition: transform var(--transition-fast);
+}
+
+#admin-login .bg-white:hover, #user-login .bg-white:hover, #user-register .bg-white:hover {
+    transform: scale(1.02); /* Subtle zoom on hover */
+}
+
+button[type="submit"] {
+    background: var(--primary-green);
+    color: var(--text-light);
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+button[type="submit"]:hover {
+    background: var(--secondary-green);
+    transform: translateY(-2px); /* Lift effect */
+    box-shadow: var(--shadow-soft);
+}
+
+/* Sidebar */
+.sidebar {
+    background: var(--primary-green);
+    box-shadow: var(--shadow-soft);
+    transition: width var(--transition-fast);
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    color: var(--text-light);
+    transition: background var(--transition-fast);
+}
+
+.sidebar nav a:hover, .sidebar nav a.bg-green-600, .sidebar nav a#admin-logout:hover, .sidebar nav a#user-logout:hover {
+    background: var(--secondary-green);
+    animation: pulse 0.5s;
+}
+
+.sidebar nav a#admin-logout:hover, .sidebar nav a#user-logout:hover {
+    background: var(--danger-red); /* Red hover for logout */
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem;
+    animation: var(--animation-fade);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #FFFFFF;
+    box-shadow: var(--shadow-soft);
+    border-radius: 8px;
+}
+
+table th, table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+table tr:hover {
+    background: rgba(76, 175, 80, 0.15); /* Hover row highlight */
+    transition: background var(--transition-fast);
+}
+
+/* Bin Markers - Dynamic Colors */
+.bin-marker {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-green);
+    border: 2px solid var(--text-light);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform var(--transition-fast);
+}
+
+.bin-marker:hover {
+    transform: scale(1.2); /* Enlarge on hover */
+}
+
+.bin-marker.full {
+    background: var(--danger-red);
+}
+
+.bin-marker.warning {
+    background: var(--warning-yellow);
+}
+
+.bin-marker.offline {
+    background: var(--offline-gray);
+}
+
+/* Modals - Animated Slide-In */
+#bin-modal, #redeem-modal {
+    animation: slideIn 0.4s ease-out;
+}
+
+#bin-modal .bg-white, #redeem-modal .bg-white {
+    box-shadow: var(--shadow-soft);
+    border-radius: 12px;
+}
+
+/* Charts - Add Borders for Stunning Look */
+canvas {
+    border: 1px solid var(--primary-green);
+    border-radius: 8px;
+    background: #FFFFFF;
+    box-shadow: var(--shadow-soft);
+    animation: fadeIn 1s ease;
+}
+
+/* Fallback Message for Charts */
+.chart-fallback {
+    text-align: center;
+    color: var(--text-dark);
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+/* Buttons - More Interactive */
+button {
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+}
+
+button:hover {
+    transform: translateY(-2px); /* Lift effect */
+    box-shadow: var(--shadow-soft);
+}
+
+/* Progress Bars - Animated Fill */
+.progress-bar div {
+    transition: width 1s ease; /* Smooth fill animation */
+}
+
+/* Rewards Cards */
+.rewards-card {
+    transition: transform var(--transition-fast);
+}
+
+.rewards-card img {
+    transition: transform var(--transition-fast);
+}
+
+.rewards-card:hover img {
+    transform: scale(1.1);
+}
+
+/* Redeem Button */
+.redeem-btn:disabled {
+    opacity: 0.6;
+    transform: none;
+}
+
+/* History Table */
+#redeemed-history tr:hover {
+    background: rgba(76, 175, 80, 0.15);
+}
+
+#no-history-msg {
+    text-align: center;
+    color: var(--text-dark);
+}
+
+/* Time Range Slider */
+#time-range {
+    accent-color: var(--primary-green);
+    cursor: pointer;
+}
+
+#time-range::-webkit-slider-thumb {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+#range-value {
+    font-weight: bold;
+    color: var(--primary-green);
+}
+
+/* Chart Enhancements */
+#rewards-time-chart, #rewards-pie-chart, #detailed-analysis-chart {
+    border: 1px solid var(--primary-green);
+    border-radius: 8px;
+    background: #FFFFFF;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Select Elements (Chart Filters) */
+select {
+    transition: all var(--transition-fast);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Media Queries for Full Responsiveness */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 1.5rem;
+    }
+    table {
+        font-size: 0.9rem;
+    }
+    .rewards-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .sidebar {
+        width: 200px;
+    }
+    .main-content {
+        margin-left: 200px;
+        padding: 1rem;
+    }
+    .sidebar nav a {
+        flex-direction: column;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+    #map {
+        height: 300px; /* Smaller on mobile */
+    }
+    .tab-content {
+        padding: 1rem;
+    }
+    .grid-cols-3, .grid-cols-2 {
+        grid-template-columns: 1fr; /* Stack on mobile */
+    }
+}
