@@ -59,6 +59,3 @@ smart-waste-bin/
 <p align="center">
   <img src="https://github.com/user-attachments/assets/448bc800-569c-4e24-b8ff-bdbaec46fb16" alt="Reward Interface" width="400"/>
 </p>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/7406763d-47b7-405b-b18b-59211ae935ad" alt="Bin Fill Levels" width="400"/>
-</p>
