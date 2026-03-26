@@ -8,6 +8,7 @@ Smart Waste Management, Edge AI, Internet of Things (IoT), Waste Classification,
 This project presents a deployment-oriented smart waste bin system that combines edge-based waste classification, biometric user authentication, automated bin control, fill-level monitoring, cloud synchronization, and lightweight tamper-evident secure logging.
 
 The system is designed for real-time operation on resource-constrained hardware such as Raspberry Pi 4B.
+![ProjectPrototype](https://github.com/user-attachments/assets/9a897346-813c-42de-867b-96beb79e7989)
 
 ## Key Features
 - Real-time waste classification on edge device
