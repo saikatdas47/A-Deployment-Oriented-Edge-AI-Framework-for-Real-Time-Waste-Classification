@@ -4,8 +4,6 @@
 
 ---
 
-# Smart Waste Bin: Edge-AI Waste Classification with Biometric Authentication and Secure Logging
-
 ## Overview
 This project presents a deployment-oriented smart waste bin system that combines edge-based waste classification, biometric user authentication, automated bin control, fill-level monitoring, cloud synchronization, and lightweight tamper-evident secure logging.
 
@@ -14,6 +12,7 @@ The system is designed for real-time operation on resource-constrained hardware 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/9a897346-813c-42de-867b-96beb79e7989" alt="Project Prototype" width="400"/>
 </p>
+Youtube: https://youtu.be/jihThDe6G7c?si=Xp2Tkp8r8tdyD5EB
 
 ## Key Features
 - Real-time waste classification on edge device
