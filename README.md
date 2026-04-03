@@ -110,8 +110,9 @@ smart-waste-bin/
 ```
 <p align="center">
   <img src="https://github.com/user-attachments/assets/448bc800-569c-4e24-b8ff-bdbaec46fb16" alt="Reward Interface" width="400"/>
+  <img width="400" height="" alt="EDS Comparison" src="https://github.com/user-attachments/assets/bb3929b8-ec41-465e-8922-22387cb5e846" />
 </p>
-<img width="638" height="490" alt="EDS Comparison" src="https://github.com/user-attachments/assets/bb3929b8-ec41-465e-8922-22387cb5e846" />
+
 
 Edge Deployment Score comparison across evaluated CNN architectures.
 Higher scores indicate better suitability for edge deployment.
