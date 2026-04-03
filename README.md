@@ -2,7 +2,6 @@
 
 **Keywords:** Smart Waste Management, Edge AI, Internet of Things (IoT), Waste Classification, Transfer Learning, ImageNet, EfficientNetB0, Raspberry Pi, Biometric Authentication
 
----
 
 ## Overview
 This project presents a deployment-oriented smart waste bin system that combines edge-based waste classification, biometric user authentication, automated bin control, fill-level monitoring, cloud synchronization, and lightweight tamper-evident secure logging.
@@ -17,7 +16,6 @@ Unlike many existing works that focus mainly on model accuracy, this project emp
 
 Youtube: https://youtu.be/jihThDe6G7c?si=Xp2Tkp8r8tdyD5EB
 
----
 
 ## Key Features
 - Real-time waste classification on edge device (TensorFlow Lite)
@@ -29,7 +27,7 @@ Youtube: https://youtu.be/jihThDe6G7c?si=Xp2Tkp8r8tdyD5EB
 - Benchmarking of multiple CNN architectures under edge constraints
 - Fully on-device inference (no continuous cloud dependency)
 
----
+
 
 ## How the System Works
 1. User scans fingerprint for authentication  
@@ -41,7 +39,7 @@ Youtube: https://youtu.be/jihThDe6G7c?si=Xp2Tkp8r8tdyD5EB
 7. Data is stored locally and synced to Firebase  
 8. Each record is secured using hash + digital signature  
 
----
+
 
 ## Models Evaluated
 - EfficientNetB0  
@@ -55,7 +53,7 @@ Youtube: https://youtu.be/jihThDe6G7c?si=Xp2Tkp8r8tdyD5EB
 - ResNet50 → highest accuracy  
 - MobileNetV3Small → best for edge deployment (fast + lightweight)
 
----
+
 
 ## Edge Deployment Score (EDS)
 To fairly compare models for edge deployment, a combined score (EDS) is used instead of only accuracy.
@@ -72,7 +70,7 @@ EDS considers:
 
 This helps identify models that are practical for real-world use on devices like Raspberry Pi.
 
----
+
 
 ## System Components
 
@@ -91,7 +89,7 @@ This helps identify models that are practical for real-world use on devices like
 - OpenCV
 - Flask
 
----
+
 
 ## Project Structure
 
@@ -108,14 +106,8 @@ smart-waste-bin/
 ├── LICENSE
 └── .gitignore
 ```
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/448bc800-569c-4e24-b8ff-bdbaec46fb16" alt="Reward Interface" width="400"/>
-  <img width="400" height="" alt="EDS Comparison" src="https://github.com/user-attachments/assets/bb3929b8-ec41-465e-8922-22387cb5e846" />
-</p>
 
-
-Edge Deployment Score comparison across evaluated CNN architectures.
-Higher scores indicate better suitability for edge deployment.
+Installation
 
 ```
 git clone https://github.com/your-username/smart-waste-bin.git
